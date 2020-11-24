@@ -29,6 +29,6 @@ aws lambda update-function-code --function-name microservice --zip-file fileb://
 - API type: HTTP API
 - Security: Open (for demo only, or use JWT authentication)
 - Note the API endpoint (will be of the form:
-[https://<some-id>.execute-api.<aws-region>.amazonaws.com/default/microservice](https://<some-id>.execute-api.<aws-region>.amazonaws.com/default/microservice))
+[https://some-id.execute-api.aws-region.amazonaws.com/default/microservice](https://<some-id>.execute-api.<aws-region>.amazonaws.com/default/microservice))
 
 Review the logs in Cloudwatch if there are any problems.
