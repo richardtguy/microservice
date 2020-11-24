@@ -10,7 +10,7 @@ def get_resource(key):
 
 def create_resource(key, value):
     """
-    Get resource from store
+    Create or update resource in store
     """
     store[key] = value
     return (key, value)
