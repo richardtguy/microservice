@@ -51,31 +51,48 @@ class Microservice():
         Handle a generic request by calling the corresponding view function
         """
         try:
-            route = self.routes[request.path]
-        except KeyError:
+            if self.default_handler:
+                result = self.default_handler()
+        except AttributeError:
+            try:
+                route = self.routes[request.path]
+            except KeyError:
+                return {
+                    "statusCode": 404,
+                    "body": json.dumps({"message": "Resource not found"})
+                }
+            if request.method not in route["methods"]:
+                return {
+                    "statusCode": 405,
+                    "body": json.dumps({"message": "Method not allowed"})
+                }
+            result = route["func"]()
+        finally:
             return {
-                "statusCode": 404,
-                "body": json.dumps({"message": "Resource not found"})
+                "statusCode": 200,
+                "body": json.dumps(result)
             }
-        if request.method not in route["methods"]:
-            return {
-                "statusCode": 405,
-                "body": json.dumps({"message": "Method not allowed"})
-            }
-        result = route["func"]()
-        return {
-            "statusCode": 200,
-            "body": json.dumps(result)
-        }
 
     def route(self, path, methods=["GET"]):
         """
         A decorator that is used to register a function for a given path
         """
         def decorator(func):
-            self._register_url(func, path, methods=methods)
+            self._register_url(func, path, methods)
             return func
         return decorator
+
+    def handler(self, func):
+        """
+        A decorator that is used to register a single function to call for all
+        requests
+        """
+        try:
+            self.default_handler
+            raise RuntimeError("Cannot register more than one function as default handler for all requests")
+        except AttributeError:
+            self.default_handler = func
+            return func
 
     def _register_url(self, func, path, methods):
         """

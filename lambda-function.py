@@ -6,7 +6,7 @@ store = {}
 
 app = Microservice()
 
-@app.route('/default/microservice', methods=["GET", "POST"])
+@app.handler
 def main():
     """
     Get or update resource from store

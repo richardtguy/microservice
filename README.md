@@ -45,13 +45,18 @@ Create the Microservice application object
 app = Microservice()
 ```
 
-Decorate view functions with the corresponding URL and methods
+To use a single function for all requests, just decorate the function:
+```python
+@app.handler
+```
+
+Decorate multiple view functions with the corresponding path and methods:
 ```python
 @app.route('/default/microservice', methods=["GET", "POST"])
 ```
 
-Use `current_request()` to access request data within the view function.
+Use `current_request()` to access request data within the decorated functions:
 ```python
 request = current_request()
-query = request.args.get("query")
+foo = request.args.get("bar")
 ```
