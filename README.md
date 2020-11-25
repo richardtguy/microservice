@@ -3,7 +3,7 @@ Demonstrator of minimal microservice framework using AWS API Gateway, Lambda and
 
 ## Limitations
 Note that the AWS API Gateway will only pass through requests to specifically
-defined endpoints - by default only /default/<function-name>.
+defined endpoints - by default only `/default/<function-name>`.
 
 ## Setup
 
