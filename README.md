@@ -1,6 +1,11 @@
 # Overview
 Demonstrator of minimal microservice framework using AWS API Gateway, Lambda and in-memory storage.
-TODO: Implement persistent storage using e.g. DynamoDB
+
+## Limitations
+Note that the AWS API Gateway will only pass through requests to specifically
+defined endpoints - by default only /default/<function-name>.
+
+## Setup
 
 ### Create new AWS Lambda function in the AWS Lambda console
 - Lambda > Functions > Create function
@@ -32,3 +37,21 @@ aws lambda update-function-code --function-name microservice --zip-file fileb://
 [https://some-id.execute-api.aws-region.amazonaws.com/default/microservice](https://<some-id>.execute-api.<aws-region>.amazonaws.com/default/microservice))
 
 Review the logs in Cloudwatch if there are any problems.
+
+### Usage
+
+Create the Microservice application object
+```python
+app = Microservice()
+```
+
+Decorate view functions with the corresponding URL and methods
+```python
+@app.route('/default/microservice', methods=["GET", "POST"])
+```
+
+Use `current_request()` to access request data within the view function.
+```python
+request = current_request()
+query = request.args.get("query")
+```
